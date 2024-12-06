@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 
 public class CheckpointTrigger : MonoBehaviour
 {
     [SerializeField] private Sprite checkpointActiveSprite; // The sprite to display when checkpoint is active
     [SerializeField] private Sprite checkpointDefaultSprite; // The default sprite before the checkpoint is activated
-    [SerializeField] static bool checkpointSet = false;
+  
     private static Vector3 checkpointPosition;
+    public static bool IsCheckpointHit { get; private set; } = false;
     
 
     private SpriteRenderer spriteRenderer;
@@ -29,21 +31,17 @@ public class CheckpointTrigger : MonoBehaviour
         {
             // Set checkpoint position when the player hits the checkpoint
             checkpointPosition = transform.position;
-            checkpointSet = true;
+            IsCheckpointHit= true;
 
             // Change the sprite when the checkpoint is set
-            if (spriteRenderer != null && checkpointSet)
+            if (spriteRenderer != null && IsCheckpointHit)
             {
                 spriteRenderer.sprite = checkpointActiveSprite;
             }
         }
     }
 
-    public static void RespawnPlayer(GameObject player)
-    {
-        if (checkpointSet)
-        {
-            player.transform.position = checkpointPosition;
-        }
+    public static Vector3 GetCheckpointPosition(){
+        return checkpointPosition;
     }
 }

@@ -22,6 +22,9 @@ public class Slime : MonoBehaviour
     [SerializeField] int maxHealth = 3;
     [SerializeField] int currentHealth;
     [SerializeField] Image[] heartContainers;
+    [Header("Lives")]
+    [SerializeField] int maxLives = 3;
+    [SerializeField] int currentLives;
 
     [Header("Sprite Reference")]
     [SerializeField] Sprite idle;
@@ -34,6 +37,8 @@ public class Slime : MonoBehaviour
     [SerializeField] float pushBackForceHorizontal = 10f;
     [SerializeField] float pushBackForceVerticle = 10f;
     [SerializeField] private float invincibilityDuration = 1f;
+
+    private Vector3 initialSpawnPosiiton;
     private bool isInvincible = false;
     private bool isDamage = false;
 
@@ -41,11 +46,14 @@ public class Slime : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
+        
+        initialSpawnPosiiton = transform.position;
     }
 
     void Start(){
 
         currentHealth = maxHealth;
+        currentLives = maxLives;
     
     }
     void Update()
@@ -150,12 +158,32 @@ public class Slime : MonoBehaviour
         }
     }
 
-    private void Die()
+    private void Die(){
+        if(currentLives >1){
+            currentLives --;
+            RespawnAtCheckpoint();
+        }
+        else{
+            GameOver();
+        }
+    }
+    private void GameOver(){
+        Debug.Log("Game Over no more lives");
+        SceneManager.LoadScene("GameOverScene");
+    }
+
+    private void RespawnAtCheckpoint()
     {
-        // Handle player death (e.g., restart level, show game over screen)
-        Debug.Log("Player has died!");
-        SceneManager.LoadScene("GameOverWinScene");
-        // Implement your death logic here
+        if(CheckpointTrigger.IsCheckpointHit){
+            currentHealth=maxHealth;
+            transform.position = CheckpointTrigger.GetCheckpointPosition();
+            UpdateHealthUI();
+        }
+        else{
+            currentHealth=maxHealth;
+            transform.position = initialSpawnPosiiton;
+            UpdateHealthUI();
+        }
     }
       private System.Collections.IEnumerator InvincibilityCoroutine()
     {
