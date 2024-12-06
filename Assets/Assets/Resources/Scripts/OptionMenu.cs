@@ -71,6 +71,15 @@ public class OptionMenu : MonoBehaviour
         float decibles = Mathf.Log10(value) * 20;
         audioMixer.SetFloat(groupName, decibles);
     }
+    
+    public void QuitGame(){
+        Application.Quit();
+    }
+    
+    public void MainMenu(){
+
+        SceneManager.LoadScene("Menu");
+    }
 
     
 }

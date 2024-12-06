@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-
+using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerInputHandler : MonoBehaviour
 {
@@ -25,4 +26,5 @@ public class PlayerInputHandler : MonoBehaviour
         Vector2 movement = new Vector2(horizontalInput, verticalInput);
         playerSlime.Move(movement);
     }
+    
 }
