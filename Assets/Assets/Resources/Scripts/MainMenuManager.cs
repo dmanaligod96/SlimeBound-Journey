@@ -19,4 +19,7 @@ public class MainMenuManager : MonoBehaviour
     public void StartMenu(){
         SceneManager.LoadScene("Menu");
     }
+    public void SettingsMenu(){
+        SceneManager.LoadScene("Settings");
+    }
 }
