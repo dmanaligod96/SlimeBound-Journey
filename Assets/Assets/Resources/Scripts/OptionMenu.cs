@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Audio;
 using TMPro;
 
 public class OptionMenu : MonoBehaviour
@@ -12,8 +13,10 @@ public class OptionMenu : MonoBehaviour
     [SerializeField] Slider masterSlider;
     [SerializeField] Slider sfxSlider;
     [SerializeField] Slider musicSlider;
+    [SerializeField] AudioMixer audioMixer;
 
     private Resolution[] resolutions;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -30,13 +33,13 @@ public class OptionMenu : MonoBehaviour
         resolutionDropdown.value = GetCurrentResolutionIndex();
         resolutionDropdown.onValueChanged.AddListener(SetResolution);
 
-        masterSlider.value = PlayerPrefs.GetFloat("MasterVolume", 1f);
-        sfxSlider.value = PlayerPrefs.GetFloat("SFXVolume", 1f);
-        musicSlider.value = PlayerPrefs.GetFloat("MusicVolume", 1f);
+        float masterSlider = PlayerPrefs.GetFloat("MasterVolume", 1f);
+        float sfxSlider = PlayerPrefs.GetFloat("SFXVolume", 1f);
+        float musicSlider = PlayerPrefs.GetFloat("MusicVolume", 1f);
 
-        masterSlider.onValueChanged.AddListener(SetMaster);
-        sfxSlider.onValueChanged.AddListener(SetSfx);
-        musicSlider.onValueChanged.AddListener(SetMusic);
+        SetMaster(masterSlider);
+        SetSfx(sfxSlider);
+        SetMusic(musicSlider);
 
     }
     private int GetCurrentResolutionIndex(){
@@ -54,15 +57,20 @@ public class OptionMenu : MonoBehaviour
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
     }
     public void SetMaster(float value){
-        AudioListener.volume = value;
+        float decibles = Mathf.Log10(value) * 20;
+        audioMixer.SetFloat("MasterVolume", decibles);
         PlayerPrefs.SetFloat("MasterVolume", value);
     }
 
-    public void SetSfx(float value){
-        PlayerPrefs.SetFloat("SFXVolume", value);
+    public void SetSfx(float volume){
+        float decibles = Mathf.Log10(volume) * 20;
+        audioMixer.SetFloat("SFXVolume", decibles);
+        PlayerPrefs.SetFloat("SFXVolume", volume);
     }
-    public void SetMusic(float value){
-        PlayerPrefs.SetFloat("MusicVolume", value);
+    public void SetMusic(float volume){
+        float decibles = Mathf.Log10(volume) * 20;
+        audioMixer.SetFloat("MusicVolume", decibles);
+        PlayerPrefs.SetFloat("MusicVolume", volume);
     }
 
     
