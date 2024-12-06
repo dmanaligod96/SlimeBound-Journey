@@ -12,6 +12,7 @@ public class PlayerAudioHandler : MonoBehaviour
     [SerializeField] AudioClip landingSound;
     [SerializeField] AudioClip checkpointHit;
     [SerializeField] AudioClip coinCollect;
+    [SerializeField] AudioClip portalHit;
 
     public void PlayDeathSound(){
         audioSource.clip = deathSound;
@@ -55,6 +56,10 @@ public class PlayerAudioHandler : MonoBehaviour
     public void PlayCoinCollectSound()
     {
         audioSource.clip = coinCollect;
+        audioSource.Play();
+    }
+    public void PlayPortalHitSound(){
+        audioSource.clip = portalHit;
         audioSource.Play();
     }
 

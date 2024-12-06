@@ -15,9 +15,11 @@ public class UIMenu : MonoBehaviour
 
     }
     public void OpenMenu(){
+        Time.timeScale = 0f;
         GetComponent<Canvas>().enabled = true;
     }
     public void CloseMenu(){
         GetComponent<Canvas>().enabled = false;
+        Time.timeScale = 1f;
     }
 }

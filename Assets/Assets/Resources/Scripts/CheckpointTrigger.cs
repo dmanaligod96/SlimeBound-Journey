@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class CheckpointTrigger : MonoBehaviour
 {
+    public PlayerAudioHandler audioHandler;
     [SerializeField] private Sprite checkpointActiveSprite; // The sprite to display when checkpoint is active
     [SerializeField] private Sprite checkpointDefaultSprite; // The default sprite before the checkpoint is activated
   
@@ -23,6 +24,7 @@ public class CheckpointTrigger : MonoBehaviour
         {
             spriteRenderer.sprite = checkpointDefaultSprite;
         }
+        
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -32,6 +34,10 @@ public class CheckpointTrigger : MonoBehaviour
             // Set checkpoint position when the player hits the checkpoint
             checkpointPosition = transform.position;
             IsCheckpointHit= true;
+            audioHandler.PlayCheckpointSound();
+            
+
+
 
             // Change the sprite when the checkpoint is set
             if (spriteRenderer != null && IsCheckpointHit)

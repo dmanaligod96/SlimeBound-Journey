@@ -11,6 +11,9 @@ GameObject:
   - component: {fileID: 7919482584338470276}
   - component: {fileID: 4172578451979615041}
   - component: {fileID: 7043776841580888445}
+  - component: {fileID: 4459612625377182385}
+  - component: {fileID: 6605149070103271656}
+  - component: {fileID: 5517521612562406981}
   m_Layer: 0
   m_Name: Slime Player
   m_TagString: Player
@@ -28,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.06570302, y: 1.5374507, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -71,8 +74,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1661501141
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 058f4d92594bf4208b91e8bf780b4017, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -100,7 +103,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 0
+  m_GravityScale: 9.5
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -111,4 +114,112 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
+--- !u!114 &4459612625377182385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1969442699384226194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02ce610ed9e10415e8014e607be6fa96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 5
+  maxJumps: 2
+  jumpForce: 20
+  currentJumps: 0
+  maxHealth: 3
+  currentHealth: 0
+  heartContainers:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  maxLives: 3
+  currentLives: 0
+  idle: {fileID: 21300000, guid: 058f4d92594bf4208b91e8bf780b4017, type: 3}
+  leftSprite: {fileID: 21300000, guid: d59ec854e1878484da9eda9264cb0a71, type: 3}
+  rightSprite: {fileID: 21300000, guid: 533e202f783bd4607aa2e8d89141b86e, type: 3}
+  downSprite: {fileID: 21300000, guid: 65866ef16a6ab4f9e85adb68ab59fe4f, type: 3}
+  upSprite: {fileID: 21300000, guid: aefb5d971830645bc9446af27084d583, type: 3}
+  pushBackForceHorizontal: 10
+  pushBackForceVerticle: 10
+  invincibilityDuration: 2
+  audioHandler: {fileID: 0}
+--- !u!60 &6605149070103271656
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1969442699384226194}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.16, y: 0.16}
+    newSize: {x: 0.16, y: 0.16}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.00039333713, y: 0.06993777}
+      - {x: -0.031677037, y: 0.068260744}
+      - {x: -0.08, y: 0.03}
+      - {x: -0.08, y: -0.03}
+      - {x: -0.049999997, y: -0.041552596}
+      - {x: 0.056708142, y: -0.04155261}
+      - {x: 0.08, y: -0.03}
+      - {x: 0.08, y: 0.03}
+      - {x: 0.03, y: 0.068260744}
+  m_UseDelaunayMesh: 0
+--- !u!95 &5517521612562406981
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1969442699384226194}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

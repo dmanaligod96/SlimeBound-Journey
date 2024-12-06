@@ -38,9 +38,14 @@ public class Slime : MonoBehaviour
     [SerializeField] float pushBackForceVerticle = 10f;
     [SerializeField] private float invincibilityDuration = 1f;
 
+    public PlayerAudioHandler audioHandler;
+    public CoinManager cm;
+
     private Vector3 initialSpawnPosiiton;
     private bool isInvincible = false;
     private bool isDamage = false;
+
+    private float delay = 2f;
 
     void Awake()
     {
@@ -48,6 +53,8 @@ public class Slime : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         
         initialSpawnPosiiton = transform.position;
+
+        
     }
 
     void Start(){
@@ -77,6 +84,7 @@ public class Slime : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             currentJumps++;
             isJumping = true;
+            audioHandler.PlayJumpSound();
         }
     }
 
@@ -85,6 +93,7 @@ public class Slime : MonoBehaviour
         if (movement.x != 0)
         {
             sr.sprite = movement.x > 0 ? rightSprite : leftSprite;
+            audioHandler.PlayStartWalkSound();
         }
         else if (isJumping || movement.y > 0.1f)
         {
@@ -93,10 +102,13 @@ public class Slime : MonoBehaviour
         else if (movement.y < 0)
         {
             sr.sprite = downSprite;
+            audioHandler.PlayStartWalkSound();
         }
         else{
             sr.sprite = idle;
         }
+        
+        
        
     }
 
@@ -106,6 +118,7 @@ public class Slime : MonoBehaviour
         {
             isGrounded = true;
             currentJumps = 0;
+            audioHandler.PlayLandingSound();
         }
         if ((collision.gameObject.CompareTag("Hazard") || collision.gameObject.CompareTag("Enemy")) && !isInvincible)
         {
@@ -117,10 +130,12 @@ public class Slime : MonoBehaviour
             Vector2 pushDirection = (transform.position - collision.transform.position).normalized;
             TakeDamage(3, pushDirection);
         }
+        
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
+        
         if (collision.gameObject.CompareTag("Floor") || collision.gameObject.CompareTag("Platform"))
         {
             isGrounded = false;
@@ -145,6 +160,7 @@ public class Slime : MonoBehaviour
         // Apply the combined force
         rb.velocity = Vector2.zero; // Reset current velocity
         rb.AddForce(new Vector2(horizontalForce, verticalForce), ForceMode2D.Impulse);
+        audioHandler.PlayDamageSound();
 
         isDamage = true;  // Set knockback flag
         StartCoroutine(EndDamage());
@@ -159,6 +175,7 @@ public class Slime : MonoBehaviour
     }
 
     private void Die(){
+        audioHandler.PlayDeathSound();
         if(currentLives >1){
             currentLives --;
             RespawnAtCheckpoint();
@@ -215,4 +232,28 @@ public class Slime : MonoBehaviour
             heartContainers[i].enabled = i < currentHealth;
         }
     }
+
+    public void LoadSceneDelay(string sceneName){
+        StartCoroutine(LoadSceneAfterDelay(sceneName));
+    }
+    private IEnumerator LoadSceneAfterDelay(string sceneName){
+        yield return new WaitForSeconds(delay);
+        SceneManager.LoadScene(sceneName);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other){
+        if(other.gameObject.CompareTag("coin")){
+            Destroy(other.gameObject);
+            audioHandler.PlayCoinCollectSound();
+            cm.coinCount++;
+        }
+        else if(other.gameObject.CompareTag("Portal")){
+            audioHandler.PlayPortalHitSound();
+            LoadSceneDelay("Level1");
+        }
+    }
+
+   
+       
+
 }
