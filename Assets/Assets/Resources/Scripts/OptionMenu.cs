@@ -7,6 +7,7 @@ using UnityEngine.Audio;
 using TMPro;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
+using System;
 
 public class OptionMenu : MonoBehaviour
 {
@@ -24,35 +25,28 @@ public class OptionMenu : MonoBehaviour
     void Start()
     {
         resolutions = Screen.resolutions;
-        resolutionDropdown.ClearOptions();
-
-        var options = new List<string>();
-        foreach (var resolution in resolutions){
-            options.Add($"{resolution.width}x{resolution.height}");
+        Resolution currentResolution = Screen.currentResolution;
+        int currentResolutionIndex = PlayerPrefs.GetInt("ResolutionIndex", resolutions.Length -1);
+        for(int i = 0; i < resolutions.Length; i++ ){
+            string resolutionsString = resolutions[i].width.ToString() + "x" + resolutions[i].height.ToString();
+            resolutionDropdown.options.Add(new TMP_Dropdown.OptionData(resolutionsString));
         }
-        
-        resolutionDropdown.AddOptions(options);
-        resolutionDropdown.value = GetCurrentResolutionIndex();
-        resolutionDropdown.onValueChanged.AddListener(SetResolution);
+        currentResolutionIndex = Math.Min(currentResolutionIndex, resolutions.Length -1);
+        resolutionDropdown.value = currentResolutionIndex;
+        SetResolution();
 
         float masterSlider = PlayerPrefs.GetFloat("MasterVolume", 1f);
         float sfxSlider = PlayerPrefs.GetFloat("SFXVolume", 1f);
         float musicSlider = PlayerPrefs.GetFloat("MusicVolume", 1f);
 
     }
-    private int GetCurrentResolutionIndex(){
-        for (int i = 0; i < resolutions.Length; i++){
-            if(resolutions[i].width == Screen.currentResolution.width && resolutions[i].height == Screen.currentResolution.height){
-                return i;
-            }
-        }
-        return 0;
-    }
+    
 
-    public void SetResolution(int index){
+    public void SetResolution(){
         
-        Resolution resolution = resolutions[index];
-        Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
+        int rezIndex = resolutionDropdown.value;
+        Screen.SetResolution(resolutions[rezIndex].width, resolutions[rezIndex].height, true);
+        PlayerPrefs.SetInt("ResolutionIndex", resolutionDropdown.value);
     }
     public void SetMaster(){
         SetVolume("MasterVolume", masterSlider.value);

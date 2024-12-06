@@ -9,6 +9,7 @@ TagManager:
   - Void
   - Hazard
   - Enemy
+  - Portal
   layers:
   - Default
   - TransparentFX
@@ -51,6 +52,9 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 2633466155
+    locked: 0
+  - name: Portal
+    uniqueID: 1280688083
     locked: 0
   - name: Enemy
     uniqueID: 3334189387
