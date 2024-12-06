@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
 using TMPro;
+using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
 
 public class OptionMenu : MonoBehaviour
 {
@@ -37,10 +39,6 @@ public class OptionMenu : MonoBehaviour
         float sfxSlider = PlayerPrefs.GetFloat("SFXVolume", 1f);
         float musicSlider = PlayerPrefs.GetFloat("MusicVolume", 1f);
 
-        SetMaster(masterSlider);
-        SetSfx(sfxSlider);
-        SetMusic(musicSlider);
-
     }
     private int GetCurrentResolutionIndex(){
         for (int i = 0; i < resolutions.Length; i++){
@@ -56,21 +54,22 @@ public class OptionMenu : MonoBehaviour
         Resolution resolution = resolutions[index];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
     }
-    public void SetMaster(float value){
-        float decibles = Mathf.Log10(value) * 20;
-        audioMixer.SetFloat("MasterVolume", decibles);
-        PlayerPrefs.SetFloat("MasterVolume", value);
+    public void SetMaster(){
+        SetVolume("MasterVolume", masterSlider.value);
+        
     }
 
-    public void SetSfx(float volume){
-        float decibles = Mathf.Log10(volume) * 20;
-        audioMixer.SetFloat("SFXVolume", decibles);
-        PlayerPrefs.SetFloat("SFXVolume", volume);
+    public void SetSfx(){
+        SetVolume("SFXVolume", sfxSlider.value);
+        
     }
-    public void SetMusic(float volume){
-        float decibles = Mathf.Log10(volume) * 20;
-        audioMixer.SetFloat("MusicVolume", decibles);
-        PlayerPrefs.SetFloat("MusicVolume", volume);
+    public void SetMusic(){
+        SetVolume("MusicVolume", musicSlider.value);
+        
+    }
+    void SetVolume(string groupName, float value){
+        float decibles = Mathf.Log10(value) * 20;
+        audioMixer.SetFloat(groupName, decibles);
     }
 
     
