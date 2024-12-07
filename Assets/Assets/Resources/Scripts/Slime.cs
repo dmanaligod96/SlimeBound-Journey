@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
 
 public class Slime : MonoBehaviour
 {
@@ -41,6 +42,7 @@ public class Slime : MonoBehaviour
     public PlayerAudioHandler audioHandler;
     public CoinManager cm;
     public LivesManager lm;
+    
 
     private Vector3 initialSpawnPosiiton;
     private bool isInvincible = false;
@@ -250,9 +252,30 @@ public class Slime : MonoBehaviour
             audioHandler.PlayCoinCollectSound();
             cm.coinCount++;
         }
-        else if(other.gameObject.CompareTag("Portal")){
+        switch (other.gameObject.tag){
+            case "Portal":
             audioHandler.PlayPortalHitSound();
+            Debug.Log("Loading Level1");
             LoadSceneDelay("Level1");
+            break;
+            case "Portal2":
+            audioHandler.PlayPortalHitSound();
+            Debug.Log("Loading LastLevel");
+            LoadSceneDelay("LastLevel");
+            break;
+            case "BackPortal1":
+            audioHandler.PlayPortalHitSound();
+            Debug.Log("Loading Tutorial");
+            LoadSceneDelay("Tutorial");
+            break;
+            case "BackPortal2":
+            audioHandler.PlayPortalHitSound();
+            Debug.Log("Loading Level1");
+            LoadSceneDelay("Level1");
+            break;
+            default:
+            Debug.LogWarning("Unrecognized portal tag " + other.gameObject.tag);
+            break;
         }
     }
 

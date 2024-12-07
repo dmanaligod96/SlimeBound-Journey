@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyAI : MonoBehaviour
+public class EnemyFlyAI : MonoBehaviour
 {
     public Transform player; // Reference to the player's transform
     public float followDistance = 5f; // Distance at which the enemy starts following

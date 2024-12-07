@@ -11,6 +11,9 @@ TagManager:
   - Enemy
   - Portal
   - coin
+  - Portal2
+  - BackPortal1
+  - BackPortal2
   layers:
   - Default
   - TransparentFX
