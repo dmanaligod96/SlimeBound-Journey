@@ -40,6 +40,7 @@ public class Slime : MonoBehaviour
 
     public PlayerAudioHandler audioHandler;
     public CoinManager cm;
+    public LivesManager lm;
 
     private Vector3 initialSpawnPosiiton;
     private bool isInvincible = false;
@@ -61,6 +62,7 @@ public class Slime : MonoBehaviour
 
         currentHealth = maxHealth;
         currentLives = maxLives;
+        lm.livesCount = currentLives;
     
     }
     void Update()
@@ -179,6 +181,7 @@ public class Slime : MonoBehaviour
         if(currentLives >1){
             currentLives --;
             RespawnAtCheckpoint();
+            lm.livesCount--;
         }
         else{
             GameOver();
