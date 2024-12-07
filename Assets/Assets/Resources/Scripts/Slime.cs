@@ -273,6 +273,10 @@ public class Slime : MonoBehaviour
             Debug.Log("Loading Level1");
             LoadSceneDelay("Level1");
             break;
+            case "Portal3":
+            audioHandler.PlayPortalHitSound();
+            LoadSceneDelay("GameOverScene");
+            break;
             default:
             Debug.LogWarning("Unrecognized portal tag " + other.gameObject.tag);
             break;
